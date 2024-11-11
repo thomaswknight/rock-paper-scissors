@@ -65,11 +65,9 @@ function playRound() {
 }
 
 function playGame() {
-    let i = 5;
     let message = "";
-    while (i) {
+    for (let i = 0; i , 5; i ++) {
         playRound();
-        i --;
     }
     if (humanScore > computerScore) {
         message = "you win!";
