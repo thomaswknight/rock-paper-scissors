@@ -4,7 +4,6 @@ let computerScore = 0
 
 function getComputerChoice() {
     const choice = Math.floor(Math.random() * 3);
-    console.log(choice);
     document.getElementById("computerchoice").innerHTML =
     "Computer chose " + RPS[choice]
     return RPS[choice];
@@ -27,27 +26,53 @@ function getHumanChoice() {
 function determineOutcome(choiceA, choiceB) {
     let A = RPS.indexOf(choiceA);
     let B = RPS.indexOf(choiceB);
-    console.log(A,B);
-    console.log(A == B);
-    console.log(A == (B + 1) % 3);
-    console.log(B == (A + 1) % 3);
     if (A == B) {
-        return "Draw";
+        document.getElementById("outcome").innerHTML = 
+        "Draw!";
+        return "draw";
     }
-    else if (A = (B + 1) % 3) {
-        return choiceA;
+    else if (A == (B + 1) % 3) {
+        document.getElementById("outcome").innerHTML = 
+        "You win!";
+        return "human";
     }
     else if (B == (A + 1) % 3) {
-        return choiceB; 
+        document.getElementById("outcome").innerHTML = 
+        "You lose!";
+        return "computer"; 
     }
 }
+
+function updateScore(outcome) {
+    if (outcome == "human") {
+        humanScore ++;
+    }
+    else if (outcome == "computer") {
+        computerScore ++;
+    }
+}
+
 
 function playRound() {
     let humanChoice = getHumanChoice();
     let computerChoice = getComputerChoice();
-    console.log(humanChoice);
-    console.log(computerChoice);
-    return determineOutcome(humanChoice, computerChoice);
+    let outcome = determineOutcome(humanChoice, computerChoice);
+    console.log(outcome);
+    updateScore(outcome);
+    console.log(humanScore, computerScore)
 }
 
-console.log(playRound());
+function playGame() {
+    let i = 5;
+    while (i) {
+        playRound();
+        i --;
+    }
+    if (humanScore > computerScore) {
+        console.log("you win!");
+    }
+    else {
+        console.log("you lose")
+    }
+}
+playGame()
