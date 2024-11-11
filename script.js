@@ -5,21 +5,21 @@ let computerScore = 0
 function getComputerChoice() {
     const choice = Math.floor(Math.random() * 3);
     document.getElementById("computerchoice").innerHTML =
-    "Computer chose " + RPS[choice]
+    "computer chose " + RPS[choice]
     return RPS[choice];
-
 }
 
 function getHumanChoice() {
-    let choice = prompt("Rock, Paper, or Scissors?")
+    let message = "rock, paper, or scissors?";
+    let choice = prompt(message)
+    while (RPS.includes(choice.toLowerCase()) == false){
+        message = "you must choose rock, paper, or scissors!";
+        choice = prompt(message);
+    }
     if (RPS.includes(choice.toLowerCase())) {
         document.getElementById("humanchoice").innerHTML = 
-        "You chose " + choice;
+        "you chose " + choice;
         return choice.toLowerCase();
-    } else {
-        document.getElementById("humanchoice").innerHTML = 
-        "You must choose rock, paper, or scissors!";
-        getHumanChoice();
     }
 }
 
@@ -28,17 +28,17 @@ function determineOutcome(choiceA, choiceB) {
     let B = RPS.indexOf(choiceB);
     if (A == B) {
         document.getElementById("outcome").innerHTML = 
-        "Draw!";
+        "draw!";
         return "draw";
     }
     else if (A == (B + 1) % 3) {
         document.getElementById("outcome").innerHTML = 
-        "You win!";
+        choiceA + " wins!";
         return "human";
     }
     else if (B == (A + 1) % 3) {
         document.getElementById("outcome").innerHTML = 
-        "You lose!";
+        choiceB + " wins!";
         return "computer"; 
     }
 }
@@ -50,6 +50,8 @@ function updateScore(outcome) {
     else if (outcome == "computer") {
         computerScore ++;
     }
+    document.getElementById("score").innerHTML = 
+    humanScore + " : " + computerScore;
 }
 
 
@@ -64,15 +66,22 @@ function playRound() {
 
 function playGame() {
     let i = 5;
+    let message = "";
     while (i) {
         playRound();
         i --;
     }
     if (humanScore > computerScore) {
-        console.log("you win!");
+        message = "you win!";
+    }
+    else if (computerScore > humanScore) {
+        message = "you lose!";
     }
     else {
-        console.log("you lose")
+        message = "it's a draw!";
     }
+    console.log(message);
+    document.getElementById("score").innerHTML += 
+    "** " + message + "**";
 }
 playGame()
